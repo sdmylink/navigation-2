@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>master navigation</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <!--    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+</head>
+
+<body>
+    <header class="header">
+        <div class="container">
+            <nav id="cssmenu">
+                <div class="logo"><a href="index.html"><img src="bepark-logo.png" alt=""></a></div>
+                <div id="head-mobile"></div>
+                <div class="button"></div>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li class="parent"><a href="#">Products</a>
+                        <ul>
+                            <li class="parent"><a href="#">Products item 1</a>
+                                <ul>
+                                    <li><a href="#">Product menu 1</a></li>
+                                    <li><a href="#">Product menu 2</a></li>
+                                </ul>
+                            </li>
+                            <li class="parent"><a href="#">Products item 2</a>
+                                <ul>
+                                    <li><a href="#">Product menu 1</a></li>
+                                    <li><a href="#">Product menu 2</a></li>
+                                </ul>
+                            </li>
+                            <li class="parent"><a href="#">Products item 3</a>
+                                <ul>
+                                    <li><a href="#">Product menu 1</a></li>
+                                    <li><a href="#">Product menu 2</a></li>
+                                </ul>
+                            </li>
+                            <li class="parent"><a href="#">Products item 4</a>
+                                <ul>
+                                    <li><a href="#">Product menu 1</a></li>
+                                    <li><a href="#">Product menu 2</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="parent"><a href="#">Fetures</a>
+                        <ul>
+                            <li class="parent"><a href="#">Fetures item 1</a>
+                                <ul>
+                                    <li><a href="#">Fetures menu 1</a></li>
+                                    <li><a href="#">Fetures menu 2</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Fetures item 2</a></li>
+                            <li class="parent"><a href="#">Fetures item 3</a>
+                                <ul>
+                                    <li><a href="#">Fetures menu 1</a></li>
+                                    <li><a href="#">Fetures menu 2</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Fetures item 4</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Blog</a></li>
+                    <li class="parent"><a href="#">Contacts</a>
+                        <ul>
+                            <li><a href="https://"><i class="fa fa-facebook"></i>Facebook</a></li>
+                            <li><a href="https://"><i class="fa fa-twitter"></i>Twitter</a></li>
+                            <li><a href="https://"><i class="fa fa-google-plus"></i>Google Plus</a></li>
+                            <li><a href="https://"><i class="fa fa-instagram"></i>Instagram</a></li>
+                            <li><a href="https://"><i class="fa fa-youtube-play"></i>Youtube</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript">
+    
+
+        (function($) {
+            $.fn.menumaker = function(options) {
+                var cssmenu = $(this),
+                    settings = $.extend({
+                        format: "dropdown",
+                        sticky: false
+                    }, options);
+                return this.each(function() {
+                    $(this).find(".button").on('click', function() {
+                        $(this).toggleClass('menu-opened');
+                        var mainmenu = $(this).next('ul');
+                        if (mainmenu.hasClass('open')) {
+                            mainmenu.slideToggle().removeClass('open');
+                        } else {
+                            mainmenu.slideToggle().addClass('open');
+                            if (settings.format === "dropdown") {
+                                mainmenu.find('ul').show();
+                            }
+                        }
+                    });
+                    cssmenu.find('li ul').parent().addClass('has-sub');
+                    multiTg = function() {
+                        cssmenu.find(".has-sub").prepend('<span class="submenu-button"></span>');
+                        cssmenu.find('.submenu-button').on('click', function() {
+                            $(this).toggleClass('submenu-opened');
+                            if ($(this).siblings('ul').hasClass('open')) {
+                                $(this).siblings('ul').removeClass('open').slideToggle();
+                            } else {
+                                $(this).siblings('ul').addClass('open').slideToggle();
+                            }
+                        });
+                    };
+                    if (settings.format === 'multitoggle') multiTg();
+                    else cssmenu.addClass('dropdown');
+                    if (settings.sticky === true) cssmenu.css('position', 'fixed');
+                    resizeFix = function() {
+                        var mediasize = 1000;
+                        if ($(window).width() > mediasize) {
+                            cssmenu.find('ul').show();
+                        }
+                        if ($(window).width() <= mediasize) {
+                            cssmenu.find('ul').hide().removeClass('open');
+                        }
+                    };
+                    resizeFix();
+                    return $(window).on('resize', resizeFix);
+                });
+            };
+        })(jQuery);
+
+        (function($) {
+            $(document).ready(function() {
+                $("#cssmenu").menumaker({
+                    format: "multitoggle"
+                });
+            });
+        })(jQuery);
+    </script>
+</body>
+</html>
